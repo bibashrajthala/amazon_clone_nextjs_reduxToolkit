@@ -1,19 +1,33 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { StarIcon } from "@heroicons/react/24/solid";
 import Currency from "react-currency-formatter";
 
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../slices/basketSlice";
+
 const Product = ({ product }) => {
+  const dispatch = useDispatch();
   //   console.log(product);
   const MAX_RATING = 5;
   const MIN_RATING = 1;
 
   const { id, title, description, price, category, image } = product;
-  const [rating] = useState(
-    Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
-  );
-  const [hasPrime] = useState(Math.random() < 0.5);
+  const [rating, setRating] = useState(0);
+  const [hasPrime, setHasPrime] = useState(true);
+
+  useEffect(() => {
+    setRating(
+      Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
+    );
+    setHasPrime(Math.random() < 0.5);
+  }, []);
+
+  const addItemToBasket = () => {
+    const productToAdd = { ...product, hasPrime, rating };
+    dispatch(addToBasket(productToAdd));
+  };
 
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10">
@@ -42,7 +56,7 @@ const Product = ({ product }) => {
       <p className="text-xs my-2 line-clamp-2">{description}</p>
 
       <div className="mb-5">
-        <Currency quantity={45685} currency="GBP" />
+        <Currency quantity={price} currency="GBP" />
       </div>
 
       {hasPrime && (
@@ -52,12 +66,15 @@ const Product = ({ product }) => {
             alt="prime"
             width={48}
             height={30}
+            className="object-contain"
           />
           <p className="text-xs text-gray-500">FREE Next-day Delivery</p>
         </div>
       )}
 
-      <button className="mt-auto button">Add to basket</button>
+      <button onClick={addItemToBasket} className="mt-auto button">
+        Add to basket
+      </button>
     </div>
   );
 };

@@ -19,17 +19,18 @@ const Banner = () => {
           <Image
             width={1200}
             height={1000}
-            loading="lazy"
             src="https://links.papareact.com/gi1"
             alt="slide 1"
             className="object-contain"
+            priority
           />
         </div>
         <div>
           <Image
             width={1200}
             height={1000}
-            loading="lazy"
+            // loading="lazy"
+            priority
             src="https://links.papareact.com/6ff"
             alt="slide 2"
             className="object-contain"
@@ -39,7 +40,8 @@ const Banner = () => {
           <Image
             width={1200}
             height={1000}
-            loading="lazy"
+            // loading="lazy"
+            priority
             src="https://links.papareact.com/7ma"
             alt="slide 2"
             className="object-contain"
